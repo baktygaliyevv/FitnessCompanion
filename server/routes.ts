@@ -164,9 +164,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const currentStats = await storage.getUserStats(userId);
       if (currentStats) {
         await storage.updateUserStats(userId, {
-          totalWorkouts: currentStats.totalWorkouts + 1,
-          totalMinutes: currentStats.totalMinutes + duration,
-          totalCalories: currentStats.totalCalories + (calories || 0),
+          totalWorkouts: (currentStats.totalWorkouts ?? 0) + 1,
+          totalMinutes: (currentStats.totalMinutes ?? 0) + duration,
+          totalCalories: (currentStats.totalCalories ?? 0) + (calories || 0),
           lastWorkout: new Date(),
         });
       }
