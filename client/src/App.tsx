@@ -20,7 +20,7 @@ function Router() {
   const [activeWorkout, setActiveWorkout] = useState<any>(null);
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-2xl min-h-screen relative overflow-hidden">
+    <div className="mobile-container">
       <Switch>
         <Route path="/" component={() => 
           <Home 

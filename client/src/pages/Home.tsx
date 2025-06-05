@@ -109,7 +109,7 @@ export default function Home({ onStartWorkout, onSelectExercise }: HomeProps) {
         {/* Start Workout Button */}
         <Button 
           onClick={handleStartQuickWorkout}
-          className="w-full gradient-secondary text-white p-4 h-auto rounded-2xl mb-4 shadow-lg active:scale-95 transition-transform"
+          className="w-full quick-start-button text-white p-4 h-auto rounded-2xl mb-4 shadow-lg active:scale-95 transition-transform"
         >
           <div className="flex items-center justify-center">
             <Play className="mr-3 text-xl" size={24} />

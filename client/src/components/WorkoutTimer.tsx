@@ -237,10 +237,10 @@ export default function WorkoutTimer({ workout, onEndWorkout }: WorkoutTimerProp
         )}
 
         {/* Action Buttons */}
-        <div className="px-6 mt-auto pb-6 space-y-3">
+        <div className="complete-set-button">
           <Button
             onClick={handleCompleteSet}
-            className="w-full bg-white text-green-700 py-4 rounded-xl font-bold text-lg shadow-lg active:scale-95 transition-transform hover:bg-gray-100"
+            className="w-full bg-white text-green-700 py-4 rounded-xl font-bold text-lg shadow-lg active:scale-95 transition-transform hover:bg-gray-100 mb-3"
           >
             Complete Set
           </Button>

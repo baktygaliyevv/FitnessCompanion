@@ -1,0 +1,139 @@
+First, a quick note: Everything you’ve built so far looks great—clean UI, well‐structured navigation, and solid component layout. Now let’s make it fully functional by wiring up real server logic for all buttons and correcting the overlay bug that appears behind the “Quick Start” workout card (as in the screenshot).
+
+1. Project Scope (React Native + Node/Express):
+
+Front End (React Native + Expo):
+
+Keep all existing screens (Home, Workouts, Exercises, Progress, Profile).
+
+Ensure that every button, tap, and navigation does something real (not just a placeholder).
+
+Fix the visual bug from the screenshot: the “Quick Start” card and “Complete Set” bar are overlapping/blurring incorrectly. Adjust the z-index or layout styling so that:
+
+The green “Start Quick Workout” banner always appears on top, without underlying text bleeding through.
+
+The white workout card (e.g. “Bench Press – 8 reps @ 135 lbs”) sits cleanly below the green banner, with proper margin or padding.
+
+The bottom “Complete Set” button is pinned correctly without getting cut off by any translucent container.
+
+Use a consistent styling approach (e.g. React Native’s StyleSheet) to correct any zIndex, elevation, or absolute‐position issues that cause the overlay bug.
+
+Back End (Node.js + Express + MongoDB or PostgreSQL):
+
+Create a new folder called /server (or integrate into your existing back‐end code).
+
+Define RESTful endpoints for:
+
+POST /api/auth/login and POST /api/auth/signup (handle user authentication, return a JWT).
+
+GET /api/workouts (return a list of available workout templates).
+
+POST /api/workouts/:id/start (create a new active workout session for the authenticated user).
+
+POST /api/workouts/:sessionId/log-exercise (record each set—exercise name, weight, reps, timestamp).
+
+POST /api/workouts/:sessionId/complete (mark workout session complete).
+
+GET /api/users/:userId/progress (return past workout history and summary stats).
+
+PUT /api/users/:userId/profile (update user profile data).
+
+Implement a simple user model in MongoDB (or PostgreSQL) with fields:
+
+id, email, passwordHash, displayName, createdAt.
+
+WorkoutSession model: id, userId, workoutTemplateId, startedAt, completedAt, exercisesLogged[].
+
+Secure all protected routes with a JWT middleware that checks the token in the Authorization header.
+
+2. Connect Front End to Back End:
+
+In your React Native project, install and configure axios (or fetch) so that every button press triggers a real HTTP request:
+
+“Start Workout” button → calls POST /api/workouts/:id/start → returns a session ID → navigate into the workout screen.
+
+When user taps “Complete Set” after finishing a set:
+
+Read the current session ID from React Context or Redux store.
+
+Send POST /api/workouts/:sessionId/log-exercise with JSON { exerciseName, weight, reps }.
+
+After the final set, tap “Complete Set” again to call POST /api/workouts/:sessionId/complete.
+
+On the Home/Progress screen, fetch GET /api/users/:userId/progress to display charts or list of past workouts.
+
+Handle JWT storage securely (e.g. AsyncStorage on device) and attach the token to every request header as Authorization: Bearer <token>.
+
+3. UI Bug Fix (Overlay/Z-Index Issue):
+
+Identify the component that renders the “Quick Start” section (blue/green banner) and the card underneath.
+
+In the parent container’s StyleSheet, explicitly set:
+
+js
+Copy
+Edit
+quickStartBanner: {
+  position: 'relative',
+  zIndex: 2,            // ensure banner is on top
+},
+workoutCard: {
+  position: 'relative',
+  marginTop: -20,       // adjust this value so the card overlaps correctly 
+  zIndex: 1,            // ensure card sits below banner
+  shadowColor: '#000',  // optional: add shadow for separation
+  elevation: 3,         // Android elevation
+},
+completeSetButtonWrapper: {
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  right: 0,
+  zIndex: 3,            // ensure the button is always on top
+  backgroundColor: '#fff',
+  padding: 10,
+}
+If you’re using <View style={{ ... }}>, make sure to include elevation: 3 on Android or shadowOpacity on iOS so layers stack correctly.
+
+Test on both iOS and Android simulators to confirm the green banner never gets cut off or blurred by the card behind it, and the “Complete Set” bar is fully visible at screen bottom.
+
+4. Final Steps & Testing:
+
+After wiring up each endpoint, use a REST client (Postman or built-in React Native debug tools) to verify all API calls succeed (200 OK) and the returned JSON matches what the front end expects.
+
+Once your back end is functional, rebuild/run the React Native app (expo start or npx react-native run-android/ios) and walk through:
+
+Sign up → Log in (check JWT storage).
+
+Browse “Workouts” → Tap “Start Workout” → Confirm a workout session record appears in your database.
+
+Log a set → Confirm API call to /log-exercise succeeds → See set appended in UI.
+
+Tap “Complete Set” on the final set → Workout completes and navigates you to a “Workout Summary” screen.
+
+Go to “Progress” → Confirm your completed workout shows in the history list.
+
+Return to the screen showing the UI bug (Quick Start banner + card) → Verify overlay is fixed.
+
+Deliverables/Expectations:
+
+A fully functional mobile app with working navigation and buttons that actually call your Node/Express back end.
+
+All visual bugs from the screenshot resolved (no overlapping text or blurred layers).
+
+Proper JWT authentication flow.
+
+Clear, maintainable code: use React Context or Redux for global state (session ID, user info).
+
+Comments in code where you fixed the zIndex/elevation logic so it’s easy to see what changed.
+
+Once complete, please provide:
+
+Source Code Repo Link (front end + back end).
+
+Short README showing how to install dependencies (npm install or yarn), set environment variables (e.g. JWT_SECRET, database URL), and run both servers.
+
+Screenshots proving the overlay bug is fixed on both Android and iOS emulators, and that an example workout went from “Start” → “Log Sets” → “Complete” → “View Progress.”
+
+—
+Thank you! Everything you’ve done thus far is excellent. Let’s now add server logic so that every button truly works, and correct the z-index/layout bug seen in the “Quick Start” view.

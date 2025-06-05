@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Play, Clock, Flame, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import WorkoutCreator from "@/components/WorkoutCreator";
 import type { Workout } from "@shared/schema";
 
 interface WorkoutsProps {
@@ -9,6 +11,7 @@ interface WorkoutsProps {
 }
 
 export default function Workouts({ onStartWorkout }: WorkoutsProps) {
+  const [showWorkoutCreator, setShowWorkoutCreator] = useState(false);
   const { data: workouts } = useQuery<Workout[]>({
     queryKey: ["/api/workouts"],
   });

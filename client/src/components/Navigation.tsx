@@ -18,22 +18,20 @@ export default function Navigation() {
         {navItems.map(({ path, icon: Icon, label }) => {
           const isActive = location === path;
           return (
-            <Link key={path} href={path}>
-              <a className="nav-btn flex flex-col items-center p-2 rounded-lg">
-                <Icon 
-                  className={`text-xl mb-1 ${
-                    isActive ? "text-primary-custom" : "text-gray-400"
-                  }`}
-                  size={24}
-                />
-                <span 
-                  className={`text-xs font-medium ${
-                    isActive ? "text-primary-custom" : "text-gray-400"
-                  }`}
-                >
-                  {label}
-                </span>
-              </a>
+            <Link key={path} href={path} className="nav-btn flex flex-col items-center p-2 rounded-lg">
+              <Icon 
+                className={`text-xl mb-1 ${
+                  isActive ? "text-primary-custom" : "text-gray-400"
+                }`}
+                size={24}
+              />
+              <span 
+                className={`text-xs font-medium ${
+                  isActive ? "text-primary-custom" : "text-gray-400"
+                }`}
+              >
+                {label}
+              </span>
             </Link>
           );
         })}
