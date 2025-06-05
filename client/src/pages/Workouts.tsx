@@ -31,7 +31,12 @@ export default function Workouts({ onStartWorkout }: WorkoutsProps) {
       <div className="gradient-primary p-6 text-white">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">My Workouts</h1>
-          <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-white hover:bg-white/20"
+            onClick={() => setShowWorkoutCreator(true)}
+          >
             <Plus size={24} />
           </Button>
         </div>
@@ -106,12 +111,27 @@ export default function Workouts({ onStartWorkout }: WorkoutsProps) {
             </div>
             <h4 className="font-semibold text-gray-600 mb-1">Create Your First Workout</h4>
             <p className="text-sm text-gray-500 mb-4">Build a custom workout plan tailored to your goals</p>
-            <Button className="bg-primary-custom text-white hover:bg-primary-custom/90">
+            <Button 
+              className="bg-primary-custom text-white hover:bg-primary-custom/90"
+              onClick={() => setShowWorkoutCreator(true)}
+            >
               Create Workout
             </Button>
           </Card>
         </div>
       </div>
+
+      {/* Workout Creator Modal */}
+      {showWorkoutCreator && (
+        <WorkoutCreator
+          onClose={() => setShowWorkoutCreator(false)}
+          onWorkoutCreated={(workout) => {
+            setShowWorkoutCreator(false);
+            // Optionally start the newly created workout
+            // onStartWorkout(workout);
+          }}
+        />
+      )}
     </div>
   );
 }
